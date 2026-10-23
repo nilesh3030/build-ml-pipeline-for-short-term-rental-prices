@@ -32,6 +32,11 @@ def go(args):
     df = df[idx].copy()
     df['last_review'] = pd.to_datetime(df['last_review'])
 
+    # Filter geographic boundaries
+    logger.info("Filtering geographic boundaries")
+    idx = df["longitude"].between(-74.25, -73.50) & df["latitude"].between(40.5, 41.2)
+    df = df[idx].copy()
+    
     # Save to CSV (always set index=False for ML workflows)
     logger.info("Saving cleaned dataset")
     df.to_csv("clean_sample.csv", index=False)
